@@ -12,6 +12,16 @@ const client = new Client({ authStrategy: new LocalAuth() });
 async function saveMessage(message: any) {
   if (message.type !== MessageTypes.TEXT) return;
 
+  // Check if the message already exists in the database
+  const existingMessage = await prisma.message.findUnique({
+    where: { external_id: message.id._serialized },
+  });
+
+  if (existingMessage) {
+    console.log(`Message ${message.id._serialized} already exists, skipping.`);
+    return;
+  }
+
   let quoteId;
   if (message.hasQuotedMsg) {
     quoteId = (await message.getQuotedMessage()).id._serialized;
