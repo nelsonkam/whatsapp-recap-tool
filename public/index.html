@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Recap Generator</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        #recap { white-space: pre-wrap; }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #recap {
+            white-space: pre-wrap;
+        }
     </style>
 </head>
+
 <body>
     <h1>Daily Recap Generator</h1>
     <form id="recapForm">
@@ -50,9 +60,11 @@
                 if (data.error) {
                     recapDiv.textContent = `Error: ${data.error}`;
                 } else {
+                    console.log(data.recap)
                     recapDiv.innerHTML = marked.parse(data.recap);
                 }
             } catch (error) {
+                console.log(error)
                 recapDiv.textContent = 'Failed to generate recap. Please try again.';
             } finally {
                 loadingDiv.style.display = 'none';
@@ -60,4 +72,5 @@
         });
     </script>
 </body>
+
 </html>
