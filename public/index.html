@@ -7,6 +7,20 @@
     <title>Daily Recap Generator</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -48,7 +62,10 @@
                 </button>
             </div>
         </form>
-        <div id="loading" class="text-center text-gray-700 text-lg hidden">Generating recap...</div>
+        <div id="loading" class="text-center text-gray-700 text-lg hidden">
+            <div class="spinner mx-auto mb-4"></div>
+            Generating recap...
+        </div>
         <div id="recap" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 prose max-w-none"></div>
     </div>
 
@@ -62,6 +79,7 @@
 
             loadingDiv.classList.remove('hidden');
             recapDiv.innerHTML = '';
+            recapDiv.classList.add('hidden');
 
             try {
                 const response = await fetch(`/generate-recap?date=${date}&language=${language}`);
@@ -76,6 +94,7 @@
                 recapDiv.innerHTML = '<p class="text-red-500">Failed to generate recap. Please try again.</p>';
             } finally {
                 loadingDiv.classList.add('hidden');
+                recapDiv.classList.remove('hidden');
             }
         });
     </script>
