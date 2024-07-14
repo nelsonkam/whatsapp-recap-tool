@@ -6,42 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Recap Generator</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        #recap {
-            white-space: pre-wrap;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <h1>Daily Recap Generator</h1>
-    <form id="recapForm">
-        <label for="date">Select Date:</label>
-        <input type="date" id="date" name="date" required>
-        <label for="language">Select Language:</label>
-        <select id="language" name="language">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="it">Italian</option>
-            <option value="pt">Portuguese</option>
-            <option value="ru">Russian</option>
-            <option value="zh">Chinese</option>
-            <option value="ja">Japanese</option>
-            <option value="ko">Korean</option>
-        </select>
-        <button type="submit">Generate Recap</button>
-    </form>
-    <div id="loading" style="display: none;">Generating recap...</div>
-    <div id="recap"></div>
+<body class="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-gray-900 mb-8">Daily Recap Generator</h1>
+        <form id="recapForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
+                    Select Date:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="date" id="date" name="date" required>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="language">
+                    Select Language:
+                </label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="language" name="language">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="it">Italian</option>
+                    <option value="pt">Portuguese</option>
+                    <option value="ru">Russian</option>
+                    <option value="zh">Chinese</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                </select>
+            </div>
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Generate Recap
+                </button>
+            </div>
+        </form>
+        <div id="loading" class="text-center text-gray-700 text-lg hidden">Generating recap...</div>
+        <div id="recap" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 prose"></div>
+    </div>
 
     <script>
         document.getElementById('recapForm').addEventListener('submit', async (e) => {
@@ -51,23 +54,22 @@
             const loadingDiv = document.getElementById('loading');
             const recapDiv = document.getElementById('recap');
 
-            loadingDiv.style.display = 'block';
+            loadingDiv.classList.remove('hidden');
             recapDiv.innerHTML = '';
 
             try {
                 const response = await fetch(`/generate-recap?date=${date}&language=${language}`);
                 const data = await response.json();
                 if (data.error) {
-                    recapDiv.textContent = `Error: ${data.error}`;
+                    recapDiv.innerHTML = `<p class="text-red-500">Error: ${data.error}</p>`;
                 } else {
-                    console.log(data.recap)
                     recapDiv.innerHTML = marked.parse(data.recap);
                 }
             } catch (error) {
-                console.log(error)
-                recapDiv.textContent = 'Failed to generate recap. Please try again.';
+                console.log(error);
+                recapDiv.innerHTML = '<p class="text-red-500">Failed to generate recap. Please try again.</p>';
             } finally {
-                loadingDiv.style.display = 'none';
+                loadingDiv.classList.add('hidden');
             }
         });
     </script>
