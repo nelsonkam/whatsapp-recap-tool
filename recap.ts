@@ -1,15 +1,11 @@
 import { Message, PrismaClient } from "@prisma/client";
 import OpenAI from "openai";
-import { startOfDay, endOfDay } from 'date-fns';
+import { startOfDay, endOfDay } from "date-fns";
 
 const prisma = new PrismaClient();
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_KEY,
-  defaultHeaders: {
-    // "HTTP-Referer": $YOUR_SITE_URL, // Optional, for including your app on openrouter.ai rankings.
-    // "X-Title": $YOUR_SITE_NAME, // Optional. Shows in rankings on openrouter.ai.
-  },
 });
 export function formatMessage(message: Message & { quoted_message: string }) {
   const quote = message.quoted_message
@@ -26,7 +22,7 @@ export function formatMessage(message: Message & { quoted_message: string }) {
 export async function getRecapInput(date: Date) {
   const start = startOfDay(date);
   const end = endOfDay(date);
-  
+
   const messages: (Message & { quoted_message: string })[] =
     await prisma.$queryRaw`select m.*, q.content as quoted_message from Message m
       left join Message q on m.quoted_message_xid = q.external_id 
@@ -35,7 +31,7 @@ export async function getRecapInput(date: Date) {
   return messages.map((m) => formatMessage(m)).join("\n");
 }
 
-export async function generateRecap(date: Date, language: string = 'en') {
+export async function generateRecap(date: Date, language: string = "en") {
   const systemPrompt = `You'll be provided with a chat history. Analyze and summarize it as follows, in ${language}:
 
 1. Identify main conversation threads and topics.

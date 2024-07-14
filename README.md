@@ -46,8 +46,8 @@ This project is a WhatsApp chat recap generator that uses AI to summarize daily 
    ```
 
 2. Set up environment variables:
-   - `DATABASE_URL`: SQLite database URL
-   - `OPENROUTER_KEY`: OpenAI API key
+   - `DATABASE_URL`: SQLite database URL (eg. `"file:./dev.db"`)
+   - `OPENROUTER_KEY`: OpenAI/OpenRouter API key
 
 3. Run the WhatsApp client:
    ```
@@ -59,11 +59,7 @@ This project is a WhatsApp chat recap generator that uses AI to summarize daily 
    bun run server.ts
    ```
 
-5. Open `http://localhost:3000` in your browser to use the recap generator.
-
-## Note on Bun
-
-This project uses Bun as the Node.js runtime. Bun is a fast all-in-one JavaScript runtime that can run most Node.js applications. It's used here for its speed and simplicity.
+5. Open `http://localhost:3000` in your browser to use the recap generator..
 
 ## Dependencies
 
@@ -72,10 +68,3 @@ This project uses Bun as the Node.js runtime. Bun is a fast all-in-one JavaScrip
 - `prisma`: For database operations
 - `express`: For the web server
 - `node-cache`: For caching generated recaps
-
-## Future Improvements
-
-- Add user authentication
-- Support for multiple WhatsApp chats
-- Implement more advanced NLP techniques for better summaries
-- Add tests for critical components
