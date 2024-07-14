@@ -36,13 +36,21 @@ export async function getRecapInput(date: Date) {
 }
 
 export async function generateRecap(date: Date) {
-  const systemPrompt = `You'll be provided a chat history by the user. Quoted messages are identified with a "> " prefix. 
-  You are tasked with identifying threads in the conversations and report each of those threads and the conversations within those. 
-  You can add as much detail as needed. 
-  Do not leave important details out.
-  Always add key links shared at the end of the digest.
-  Do not identify the participants.
-  You should respond in markdown.`;
+  const systemPrompt = `You'll be provided with a chat history. Analyze and summarize it as follows:
+
+1. Identify main conversation threads and topics.
+2. For each thread:
+   - Summarize the key points and discussions.
+   - Highlight any decisions made or actions agreed upon.
+   - Note any unresolved questions or issues.
+3. Capture important details, ensuring nothing significant is omitted.
+4. List all shared links at the end of the digest, categorized if possible.
+5. Do not identify specific participants; use neutral terms like "a user" or "the team".
+6. Format your response in Markdown, using headers, bullet points, and other formatting for clarity.
+7. If applicable, note any recurring themes or patterns in the conversations.
+8. Highlight any particularly important or urgent matters that were discussed.
+
+Your goal is to provide a comprehensive yet concise overview that allows someone who wasn't part of the conversation to quickly understand what was discussed and what's important.`;
   const completion = await openai.chat.completions.create({
     model: "openai/gpt-4o",
     messages: [
