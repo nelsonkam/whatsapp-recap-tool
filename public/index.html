@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Recap Generator</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -17,13 +17,17 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
                     Select Date:
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="date" id="date" name="date" required>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    type="date" id="date" name="date" required>
             </div>
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="language">
                     Select Language:
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="language" name="language">
+                <select
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="language" name="language">
                     <option value="en">English</option>
                     <option value="es">Spanish</option>
                     <option value="fr">French</option>
@@ -37,13 +41,15 @@
                 </select>
             </div>
             <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
                     Generate Recap
                 </button>
             </div>
         </form>
         <div id="loading" class="text-center text-gray-700 text-lg hidden">Generating recap...</div>
-        <div id="recap" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 prose"></div>
+        <div id="recap" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 prose max-w-none"></div>
     </div>
 
     <script>
