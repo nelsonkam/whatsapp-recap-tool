@@ -14,20 +14,22 @@ app.get('/', (req, res) => {
 
 app.get('/generate-recap', async (req, res) => {
   const dateString = req.query.date as string;
+  const language = req.query.language as string || 'en';
   if (!dateString) {
     return res.status(400).json({ error: 'Date is required' });
   }
 
   const date = new Date(dateString);
-  const cacheKey = `recap_${dateString}`;
+  const cacheKey = `recap_${dateString}_${language}`;
 
   try {
     let recap = cache.get(cacheKey);
     if (recap === undefined) {
-      recap = await generateRecap(date);
-      cache.set(cacheKey, recap);
+      const result = await generateRecap(date, language);
+      recap = result.recap;
+      cache.set(cacheKey, result);
     }
-    res.json({ recap });
+    res.json({ recap, language });
   } catch (error) {
     console.error('Error generating recap:', error);
     res.status(500).json({ error: 'Failed to generate recap' });

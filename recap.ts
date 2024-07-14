@@ -35,8 +35,8 @@ export async function getRecapInput(date: Date) {
   return messages.map((m) => formatMessage(m)).join("\n");
 }
 
-export async function generateRecap(date: Date) {
-  const systemPrompt = `You'll be provided with a chat history. Analyze and summarize it as follows:
+export async function generateRecap(date: Date, language: string = 'en') {
+  const systemPrompt = `You'll be provided with a chat history. Analyze and summarize it as follows, in ${language}:
 
 1. Identify main conversation threads and topics.
 2. For each thread:
@@ -58,5 +58,5 @@ Your goal is to provide a comprehensive yet concise overview that allows someone
       { role: "user", content: await getRecapInput(date) },
     ],
   });
-  return completion.choices[0].message.content;
+  return { recap: completion.choices[0].message.content, language };
 }
